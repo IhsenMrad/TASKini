@@ -1,0 +1,189 @@
+.offers-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    color: var(--text-light);
+}
+
+/* Loading & Empty States */
+.loading,
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.empty-state .material-icons {
+    font-size: 4rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+/* Task Group */
+.task-group {
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.task-header {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-info h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.25rem;
+}
+
+.task-meta {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.view-task-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.view-task-link:hover {
+    text-decoration: underline;
+}
+
+/* Applications Grid */
+.applications-grid {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Application Card */
+.application-card {
+    border: 1px solid var(--border-light);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    background: var(--white);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.application-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.applicant-info {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.avatar-icon {
+    font-size: 2.5rem;
+    color: #adb5bd;
+}
+
+.applicant-info strong {
+    display: block;
+    font-size: 0.95rem;
+}
+
+.app-date {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.message {
+    font-style: italic;
+    color: var(--text-gray);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    background: #f8f9fa;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+}
+
+/* Actions */
+.app-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-accept {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.btn-accept:hover {
+    background-color: #c3e6cb;
+}
+
+.btn-reject {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.btn-reject:hover {
+    background-color: #f5c6cb;
+}
+
+.app-status-msg {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.app-status-msg .success {
+    color: #28a745;
+}
+
+.app-status-msg .danger {
+    color: #dc3545;
+}

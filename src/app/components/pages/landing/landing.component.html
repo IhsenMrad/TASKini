@@ -1,0 +1,128 @@
+<app-navbar></app-navbar>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title fade-in">Get Tasks Done. Help Someone. Earn Extra.</h1>
+      <p class="hero-subtitle fade-in">The easiest way to post tasks and find help in your local community.</p>
+      <div class="hero-buttons fade-in">
+        <a routerLink="/register" class="btn btn-primary btn-lg">
+          <span class="material-icons">add_task</span>
+          Post a Task
+        </a>
+        <a routerLink="/dashboard/tasks" class="btn btn-outline btn-lg">
+          <span class="material-icons">search</span>
+          Browse Tasks
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works py-4">
+  <div class="container">
+    <h2 class="section-title text-center mb-3">How It Works</h2>
+    <div class="grid grid-3">
+      <div class="feature-card" *ngFor="let step of howItWorks; let i = index">
+        <div class="step-number">{{ i + 1 }}</div>
+        <span class="material-icons feature-icon">{{ step.icon }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Taskini Section -->
+<section class="why-taskini py-4 bg-light-green">
+  <div class="container">
+    <h2 class="section-title text-center mb-3">Why TASKini?</h2>
+    <div class="grid grid-4">
+      <div class="benefit-card" *ngFor="let benefit of whyTaskini">
+        <span class="material-icons benefit-icon">{{ benefit.icon }}</span>
+        <h4>{{ benefit.title }}</h4>
+        <p>{{ benefit.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials py-4">
+  <div class="container">
+    <h2 class="section-title text-center mb-3">What Our Users Say</h2>
+    <div class="testimonial-carousel">
+      <button class="carousel-btn prev" (click)="prevTestimonial()">
+        <span class="material-icons">chevron_left</span>
+      </button>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <img [src]="testimonials[currentTestimonial].avatar" [alt]="testimonials[currentTestimonial].name" class="testimonial-avatar">
+          <div>
+            <h4>{{ testimonials[currentTestimonial].name }}</h4>
+            <p class="testimonial-role">{{ testimonials[currentTestimonial].role }}</p>
+          </div>
+        </div>
+        <div class="testimonial-rating">
+          <span class="material-icons" *ngFor="let star of [1,2,3,4,5]">star</span>
+        </div>
+        <p class="testimonial-text">"{{ testimonials[currentTestimonial].text }}"</p>
+      </div>
+
+      <button class="carousel-btn next" (click)="nextTestimonial()">
+        <span class="material-icons">chevron_right</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta py-4 bg-green">
+  <div class="container text-center">
+    <h2 class="cta-title">Ready to Get Started?</h2>
+    <p class="cta-text">Join thousands of users getting things done!</p>
+    <a routerLink="/register" class="btn btn-white btn-lg">
+      Sign Up Now
+      <span class="material-icons">arrow_forward</span>
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3 class="footer-brand">
+          <span class="material-icons">check_circle</span>
+          TASKini
+        </h3>
+        <p>Get tasks done. Help your community. Earn extra income.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a routerLink="/dashboard/tasks">Browse Tasks</a>
+        <a routerLink="/register">Sign Up</a>
+        <a routerLink="/login">Login</a>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Safety</a>
+        <a href="#">Terms of Service</a>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <a href="#">Facebook</a>
+        <a href="#">Twitter</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 TASKini. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

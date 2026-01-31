@@ -1,0 +1,85 @@
+.profile {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.profile h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.profile-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid green;
+  object-fit: cover;
+}
+
+.profile-info h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-info p {
+  color: gray;
+  margin-bottom: 1rem;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.stat .material-icons {
+  color: green;
+  font-size: 2rem;
+}
+
+.profile-section {
+  margin-bottom: 2rem;
+}
+
+.skills-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.profile-actions {
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.edit-form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.edit-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}

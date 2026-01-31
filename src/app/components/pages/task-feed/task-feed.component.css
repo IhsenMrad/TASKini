@@ -1,0 +1,139 @@
+.task-feed {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.feed-header {
+  margin-bottom: 2rem;
+}
+
+.feed-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.feed-header p {
+  color: var(--text-gray);
+  font-size: 1.125rem;
+}
+
+.filters-section {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-box .material-icons {
+  color: var(--primary-green);
+  font-size: 1.5rem;
+}
+
+.search-box input {
+  flex: 1;
+  margin: 0;
+}
+
+.filters {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filters select {
+  min-width: 200px;
+  margin: 0;
+}
+
+.budget-filter {
+  flex: 1;
+  min-width: 250px;
+}
+
+.budget-filter label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
+.budget-filter input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  background: var(--border-light);
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.budget-filter input[type="range"]::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-green);
+  cursor: pointer;
+  border: none;
+}
+
+.budget-filter input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-green);
+  cursor: pointer;
+  border: none;
+}
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.no-tasks {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--white);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.no-tasks .material-icons {
+  font-size: 5rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.no-tasks p {
+  font-size: 1.125rem;
+  color: var(--text-gray);
+}
+
+@media (max-width: 768px) {
+  .feed-header h1 {
+    font-size: 2rem;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters select {
+    width: 100%;
+  }
+
+  .tasks-grid {
+    grid-template-columns: 1fr;
+  }
+}

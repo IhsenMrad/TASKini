@@ -1,0 +1,65 @@
+<div class="offers-container">
+    <div class="header">
+        <h1>Offers & Applications</h1>
+        <p>Manage applications for your posted tasks</p>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading offers...</p>
+    </div>
+
+    <div *ngIf="!loading && myTasksWithApplications.length === 0" class="empty-state">
+        <span class="material-icons">inbox</span>
+        <p>No applications received yet.</p>
+        <a routerLink="/dashboard/create-task" class="btn btn-primary">Post a New Task</a>
+    </div>
+
+    <div *ngIf="!loading && myTasksWithApplications.length > 0" class="tasks-list">
+        <div *ngFor="let item of myTasksWithApplications" class="task-group">
+            <div class="task-header">
+                <div class="task-info">
+                    <h3>{{ item.task.title }}</h3>
+                    <span class="task-meta">Posted on {{ item.task.date | date }} • Budget: \${{ item.task.budget
+                        }}</span>
+                </div>
+                <a [routerLink]="['/tasks', item.task.id]" class="view-task-link">View Task</a>
+            </div>
+
+            <div class="applications-grid">
+                <div *ngFor="let app of item.applications" class="application-card">
+                    <div class="app-header">
+                        <div class="applicant-info">
+                            <span class="material-icons avatar-icon">account_circle</span>
+                            <div>
+                                <strong>{{ app.userName || 'User #' + app.applicantId }}</strong>
+                                <span class="app-date">{{ app.createdAt | date }}</span>
+                            </div>
+                        </div>
+                        <app-badge [status]="app.status">{{ app.status }}</app-badge>
+                    </div>
+
+                    <div class="app-content">
+                        <p class="message">"{{ app.message }}"</p>
+                    </div>
+
+                    <div class="app-actions" *ngIf="app.status !== 'ACCEPTED' && app.status !== 'REJECTED'">
+                        <button class="btn btn-accept" (click)="acceptApplication(item.task, app)">
+                            <span class="material-icons">check</span> Accept
+                        </button>
+                        <button class="btn btn-reject" (click)="rejectApplication(item.task, app)">
+                            <span class="material-icons">close</span> Reject
+                        </button>
+                    </div>
+
+                    <div class="app-status-msg" *ngIf="app.status === 'ACCEPTED'">
+                        <span class="material-icons success">check_circle</span> Application Accepted
+                    </div>
+                    <div class="app-status-msg" *ngIf="app.status === 'REJECTED'">
+                        <span class="material-icons danger">cancel</span> Application Rejected
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

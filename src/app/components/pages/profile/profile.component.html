@@ -1,0 +1,90 @@
+<div class="profile" *ngIf="user">
+  <h1>My Profile</h1>
+
+  <div class="profile-card">
+
+    <!-- VIEW MODE -->
+    <ng-container *ngIf="!editMode; else editTemplate">
+
+      <div class="profile-header">
+        <img 
+          [src]="user.avatar || 'assets/default-avatar.png'" 
+          class="profile-avatar"
+        />
+
+        <div class="profile-info">
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+
+          <div class="profile-stats">
+
+            <div class="stat">
+              <span class="material-icons">task_alt</span>
+              <div>
+                <strong>{{ user.completedTasks }}</strong>
+                <span>Completed</span>
+              </div>
+            </div>
+
+            <div class="stat">
+              <span class="material-icons">star</span>
+              <div>
+                <strong>{{ user.rating }}</strong>
+                <span>Rating</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- BIO -->
+      <div class="profile-section" *ngIf="user.bio">
+        <h3>About</h3>
+        <p>{{ user.bio }}</p>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="profile-section" *ngIf="user.skills?.length">
+        <h3>Skills</h3>
+        <div class="skills-list">
+          <app-badge *ngFor="let skill of user.skills" [text]="skill"></app-badge>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="profile-actions">
+        <button class="btn btn-primary" (click)="enableEdit()">
+          <span class="material-icons">edit</span>
+          Edit Profile
+        </button>
+      </div>
+
+    </ng-container>
+
+    <!-- EDIT MODE -->
+    <ng-template #editTemplate>
+      <div class="edit-form">
+
+        <label>Name</label>
+        <input type="text" [(ngModel)]="editableUser.name">
+
+        <label>Email</label>
+        <input type="email" [(ngModel)]="editableUser.email">
+
+        <label>Bio</label>
+        <textarea rows="3" [(ngModel)]="editableUser.bio"></textarea>
+
+        <label>Skills (comma separated)</label>
+        <input type="text" [(ngModel)]="skillsText">
+
+        <div class="edit-actions">
+          <button class="btn btn-primary" (click)="save()">Save</button>
+          <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+
+      </div>
+    </ng-template>
+
+  </div>
+</div>

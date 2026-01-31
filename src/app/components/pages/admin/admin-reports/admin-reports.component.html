@@ -1,0 +1,584 @@
+<div class="admin-reports">
+  <div class="page-header">
+    <h1>Reports & Analytics</h1>
+    <p>Platform insights and performance metrics</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <span class="material-icons">refresh</span>
+    <p>Loading analytics data...</p>
+  </div>
+
+  <!-- User Analysis Section -->
+  <div class="section" *ngIf="stats && !loading">
+    <h2>User Analysis</h2>
+    <div class="metrics-grid">
+      <div class="metric-card" (click)="viewAllUsers()">
+        <div class="metric-icon primary">
+          <span class="material-icons">people</span>
+        </div>
+        <div class="metric-info">
+          <h3>{{ stats.total_users }}</h3>
+          <p>Total Users</p>
+          <small>Unbanned: {{ unbannedUsers }} ({{ unbannedPercentage }}%)</small>
+        </div>
+      </div>
+
+      <div class="metric-card" (click)="viewBannedUsers()">
+        <div class="metric-icon warning">
+          <span class="material-icons">block</span>
+        </div>
+        <div class="metric-info">
+          <h3>{{ stats.banned_users }}</h3>
+          <p>Banned Users</p>
+          <small>{{ bannedPercentage }}% of total users</small>
+        </div>
+      </div>
+
+      <div class="metric-card" (click)="viewActiveUsers()">
+        <div class="metric-icon success">
+          <span class="material-icons">trending_up</span>
+        </div>
+        <div class="metric-info">
+          <h3>{{ activeUsersLast7Days }}</h3>
+          <p>Active Users (7 days)</p>
+          <small>{{ activeUsersPercentage }}% of total</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Status Chart -->
+    <div class="chart-row">
+      <div class="chart-card">
+        <h3>User Status Distribution</h3>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="userStatusChartData"
+            [options]="doughnutChartOptions"
+            [type]="'doughnut'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Analysis Section -->
+  <div class="section" *ngIf="stats && !loading">
+    <h2>Task Analysis</h2>
+    <div class="metrics-grid">
+      <div class="metric-card" (click)="viewAllTasks()">
+        <div class="metric-icon info">
+          <span class="material-icons">assignment</span>
+        </div>
+        <div class="metric-info">
+          <h3>{{ stats.total_tasks }}</h3>
+          <p>Total Tasks</p>
+          <small>{{ openTasksPercentage }}% Open</small>
+        </div>
+      </div>
+
+      <div class="metric-card" (click)="viewFlaggedTasks()">
+        <div class="metric-icon danger">
+          <span class="material-icons">flag</span>
+        </div>
+        <div class="metric-info">
+          <h3>{{ stats.flagged_tasks }}</h3>
+          <p>Flagged Tasks</p>
+          <small>{{ flaggedPercentage }}% of total</small>
+        </div>
+      </div>
+
+      <div class="metric-card" (click)="viewCompletedTasks()">
+        <div class="metric-icon success">
+          <span class="material-icons">check_circle</span>
+        </div>
+        <div class="metric-info">
+          <h3>{{ stats.completed_tasks }}</h3>
+          <p>Completed Tasks</p>
+          <small>{{ completionRate }}% completion rate</small>
+        </div>
+      </div>
+
+      <div class="metric-card" (click)="viewInProgressTasks()">
+        <div class="metric-icon warning">
+          <span class="material-icons">hourglass_empty</span>
+        </div>
+        <div class="metric-info">
+          <h3>{{ inProgressTasks }}</h3>
+          <p>In Progress</p>
+          <small>{{ inProgressPercentage }}% of total</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task Status Charts -->
+    <div class="chart-row">
+      <div class="chart-card">
+        <h3>Task Status Distribution</h3>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="taskStatusChartData"
+            [options]="doughnutChartOptions"
+            [type]="'doughnut'">
+          </canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3>Flagged vs Normal Tasks</h3>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="taskFlaggedChartData"
+            [options]="pieChartOptions"
+            [type]="'pie'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Financial & Activity Section -->
+  <div class="section" *ngIf="!loading && chartsLoaded">
+    <h2>Financial & Platform Overview</h2>
+    <div class="chart-row">
+      <!-- Budget Distribution -->
+      <div class="chart-card">
+        <h3>Budget Distribution</h3>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="budgetChartData"
+            [options]="barChartOptions"
+            [type]="'bar'">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Revenue Overview -->
+      <div class="chart-card">
+        <h3>Revenue Overview</h3>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="revenueChartData"
+            [options]="lineChartOptions"
+            [type]="'line'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <!-- Platform Activity -->
+      <div class="chart-card">
+        <h3>Platform Activity</h3>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="platformActivityChartData"
+            [options]="lineChartOptions"
+            [type]="'line'">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Recent Admin Activity -->
+      <div class="chart-card">
+        <h3>Recent Admin Activity</h3>
+        <div class="activity-list">
+          <div *ngFor="let activity of recentActivities" class="activity-item">
+            <div class="activity-icon" [ngClass]="getActivityIconClass(activity.icon)">
+              <span class="material-icons">{{ activity.icon }}</span>
+            </div>
+            <div class="activity-details">
+              <p>{{ activity.description }}</p>
+              <small>{{ activity.timestamp }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Details Modal -->
+  <div *ngIf="showUserModal" class="modal-overlay">
+    <div class="modal modal-large">
+      <div class="modal-header">
+        <h3>{{ selectedUser?.fullName || 'User Details' }}</h3>
+        <button (click)="closeUserModal()" class="btn-close">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <div *ngIf="selectedUser" class="modal-body">
+        <div class="user-details-content">
+          <div class="user-profile-header">
+            <div class="user-avatar">
+              <img [src]="getUserAvatar(selectedUser)" [alt]="selectedUser.fullName">
+            </div>
+            <div class="user-basic-info">
+              <h2>{{ selectedUser.fullName }}</h2>
+              <p class="user-email">{{ selectedUser.email }}</p>
+              <div class="user-status">
+                <span [class]="selectedUser.banned ? 'status-banned' : 'status-active'">
+                  {{ selectedUser.banned ? 'Banned' : 'Active' }}
+                </span>
+                <span class="role-badge">{{ selectedUser.role }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div class="detail-section">
+              <h4>Contact Information</h4>
+              <div class="detail-item">
+                <span class="material-icons">phone</span>
+                <div>
+                  <label>Phone</label>
+                  <p>{{ selectedUser.phone || 'Not provided' }}</p>
+                </div>
+              </div>
+              <div class="detail-item">
+                <span class="material-icons">location_on</span>
+                <div>
+                  <label>Location</label>
+                  <p>{{ selectedUser.location || 'Not provided' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h4>Account Information</h4>
+              <div class="detail-item">
+                <span class="material-icons">person</span>
+                <div>
+                  <label>User ID</label>
+                  <p>#{{ selectedUser.id }}</p>
+                </div>
+              </div>
+              <div class="detail-item">
+                <span class="material-icons">calendar_today</span>
+                <div>
+                  <label>Member Since</label>
+                  <p>{{ selectedUser.createdAt | date: 'MMM d, yyyy' }}</p>
+                </div>
+              </div>
+              <div class="detail-item" *ngIf="selectedUser.lastLogin">
+                <span class="material-icons">login</span>
+                <div>
+                  <label>Last Login</label>
+                  <p>{{ selectedUser.lastLogin | date: 'MMM d, yyyy' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section" *ngIf="userStats">
+              <h4>Activity Stats</h4>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="stat-number">{{ userStats.tasksPosted || 0 }}</span>
+                  <span class="stat-label">Tasks Posted</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">{{ userStats.tasksCompleted || 0 }}</span>
+                  <span class="stat-label">Tasks Completed</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">{{ userStats.applications || 0 }}</span>
+                  <span class="stat-label">Applications</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section full-width" *ngIf="selectedUser.banned && selectedUser.banReason">
+              <h4>Ban Information</h4>
+              <div class="ban-info">
+                <span class="material-icons">warning</span>
+                <div>
+                  <label>Ban Reason</label>
+                  <p>{{ selectedUser.banReason }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section full-width" *ngIf="selectedUser.bio">
+              <h4>Bio</h4>
+              <p class="user-bio">{{ selectedUser.bio }}</p>
+            </div>
+
+            <div class="detail-section full-width" *ngIf="selectedUser.skills?.length">
+              <h4>Skills</h4>
+              <div class="skills-list">
+                <span *ngFor="let skill of selectedUser.skills" class="skill-tag">
+                  {{ skill }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="closeUserModal()" class="btn btn-outline">Close</button>
+        <button
+          *ngIf="selectedUser && !selectedUser.banned"
+          (click)="banUser(selectedUser)"
+          class="btn btn-danger">
+          Ban User
+        </button>
+        <button
+          *ngIf="selectedUser && selectedUser.banned"
+          (click)="unbanUser(selectedUser!.id)"
+          class="btn btn-success">
+          Unban User
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Details Modal -->
+  <div *ngIf="showTaskModal" class="modal-overlay">
+    <div class="modal modal-large">
+      <div class="modal-header">
+        <h3>{{ selectedTask?.title || 'Task Details' }}</h3>
+        <button (click)="closeTaskModal()" class="btn-close">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <div *ngIf="selectedTask" class="modal-body">
+        <div class="task-details-content">
+          <div class="task-header">
+            <div class="task-title-section">
+              <span class="category-badge-large">{{ selectedTask.category }}</span>
+              <h2>{{ selectedTask.title }}</h2>
+              <div class="task-meta">
+                <span class="task-budget-large">${{ selectedTask.budget }}</span>
+                <!-- FIXED LINE 554: Added safe navigation -->
+<span [class]="getStatusClass(selectedTask.status)">
+                    {{ selectedTask.status || 'Unknown' }}
+                </span>
+                <span *ngIf="selectedTask.flagged" class="flagged-badge">
+                  <span class="material-icons">flag</span>
+                  Flagged
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div class="detail-section">
+              <h4>Basic Information</h4>
+              <div class="detail-item">
+                <span class="material-icons">person</span>
+                <div>
+                  <label>Creator</label>
+                  <p>User #{{ selectedTask.creatorId }}</p>
+                </div>
+              </div>
+              <div class="detail-item">
+                <span class="material-icons">location_on</span>
+                <div>
+                  <label>Location</label>
+                  <p>{{ selectedTask.location }}</p>
+                </div>
+              </div>
+              <div class="detail-item">
+                <span class="material-icons">calendar_today</span>
+                <div>
+                  <label>Created</label>
+                  <p>{{ selectedTask.createdAt | date: 'MMM d, yyyy' }}</p>
+                </div>
+              </div>
+              <div class="detail-item" *ngIf="selectedTask.dueDate">
+                <span class="material-icons">event</span>
+                <div>
+                  <label>Due Date</label>
+                  <p>{{ selectedTask.dueDate | date: 'MMM d, yyyy' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h4>Task Stats</h4>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="stat-number">{{ taskStats?.applications || 0 }}</span>
+                  <span class="stat-label">Applications</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">{{ taskStats?.views || 0 }}</span>
+                  <span class="stat-label">Views</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">{{ taskStats?.saves || 0 }}</span>
+                  <span class="stat-label">Saves</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section full-width">
+              <h4>Description</h4>
+              <p class="task-description">{{ selectedTask.description }}</p>
+            </div>
+
+            <div class="detail-section full-width" *ngIf="selectedTask.requirements">
+              <h4>Requirements</h4>
+              <p class="task-requirements">{{ selectedTask.requirements }}</p>
+            </div>
+
+            <div class="detail-section full-width" *ngIf="selectedTask.flagged && selectedTask.flagReason">
+              <h4>Flag Information</h4>
+              <div class="flag-info">
+                <span class="material-icons">warning</span>
+                <div>
+                  <label>Flag Reason</label>
+                  <p>{{ selectedTask.flagReason }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section full-width" *ngIf="taskApplications?.length">
+              <h4>Applications ({{ taskApplications.length }})</h4>
+              <div class="applications-list">
+                <div *ngFor="let application of taskApplications" class="application-item">
+                  <div class="application-user">
+                    <strong>User #{{ application.userId }}</strong>
+                    <span class="application-date">{{ application.appliedAt | date: 'MMM d, yyyy' }}</span>
+                  </div>
+                  <p class="application-message">{{ application.message }}</p>
+                  <div class="application-details">
+                    <!-- FIXED: Added safe navigation for application status -->
+                    <span [class]="'status-' + (application?.status?.toLowerCase() || 'unknown')">
+                      {{ application.status || 'Unknown' }}
+                    </span>
+                    <span *ngIf="application.proposedPrice" class="proposed-price">
+                      ${{ application.proposedPrice }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="closeTaskModal()" class="btn btn-outline">Close</button>
+        <button
+          *ngIf="selectedTask && !selectedTask.flagged"
+          (click)="flagTask(selectedTask)"
+          class="btn btn-warning">
+          Flag Task
+        </button>
+        <button
+          *ngIf="selectedTask && selectedTask.flagged"
+          (click)="unflagTask(selectedTask!.id)"
+          class="btn btn-success">
+          Unflag Task
+        </button>
+        <button
+          *ngIf="selectedTask"
+          (click)="deleteTask(selectedTask!.id)"
+          class="btn btn-danger">
+          Delete Task
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users List Modal -->
+  <div *ngIf="showUsersListModal" class="modal-overlay">
+    <div class="modal modal-xlarge">
+      <div class="modal-header">
+        <h3>{{ usersListTitle }}</h3>
+        <button (click)="closeUsersListModal()" class="btn-close">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="users-list-container">
+          <div *ngFor="let user of filteredUsers" class="user-list-item" (click)="viewUserDetails(user)">
+            <div class="user-avatar-small">
+              <img [src]="getUserAvatar(user)" [alt]="user.fullName">
+            </div>
+            <div class="user-info">
+              <h4>{{ user.fullName }}</h4>
+              <p>{{ user.email }}</p>
+              <div class="user-meta">
+                <span [class]="user.banned ? 'status-banned' : 'status-active'">
+                  {{ user.banned ? 'Banned' : 'Active' }}
+                </span>
+                <span class="role-badge">{{ user.role }}</span>
+              </div>
+            </div>
+            <div class="user-stats">
+              <div class="stat">
+                <span class="stat-number">{{ getUserTaskStats(user.id)?.tasksPosted || 0 }}</span>
+                <span class="stat-label">Tasks</span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="filteredUsers.length === 0" class="empty-state">
+            <span class="material-icons">people</span>
+            <p>No users found</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="closeUsersListModal()" class="btn btn-outline">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks List Modal -->
+  <div *ngIf="showTasksListModal" class="modal-overlay">
+    <div class="modal modal-xlarge">
+      <div class="modal-header">
+        <h3>{{ tasksListTitle }}</h3>
+        <button (click)="closeTasksListModal()" class="btn-close">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="tasks-list-container">
+          <div *ngFor="let task of filteredTasks" class="task-list-item" (click)="viewTaskDetails(task)">
+            <div class="task-info">
+              <h4>{{ task.title }}</h4>
+              <p class="task-description-small">{{ task.description | slice:0:100 }}{{ task.description.length > 100 ? '...' : '' }}</p>
+              <div class="task-meta-small">
+                <span class="category-badge">{{ task.category }}</span>
+                <span class="budget">${{ task.budget }}</span>
+                <!-- FIXED LINE 565: Added safe navigation -->
+                <span [class]="'status-' + (task?.status?.toLowerCase() || 'unknown')">
+                  {{ task.status || 'Unknown' }}
+                </span>
+                <span *ngIf="task.flagged" class="flagged-indicator">
+                  <span class="material-icons">flag</span>
+                  Flagged
+                </span>
+              </div>
+            </div>
+            <div class="task-stats">
+              <div class="stat">
+                <span class="stat-number">{{ getTaskStats(task.id)?.applications || 0 }}</span>
+                <span class="stat-label">Applications</span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="filteredTasks.length === 0" class="empty-state">
+            <span class="material-icons">assignment</span>
+            <p>No tasks found</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="closeTasksListModal()" class="btn btn-outline">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

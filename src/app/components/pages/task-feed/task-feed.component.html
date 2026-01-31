@@ -1,0 +1,46 @@
+<div class="task-feed">
+  <div class="feed-header">
+    <h1>Browse Tasks</h1>
+    <p>Find tasks that match your skills and interests</p>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <span class="material-icons">search</span>
+      <input
+        type="text"
+        placeholder="Search tasks..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterTasks()">
+    </div>
+
+    <div class="filters">
+      <select [(ngModel)]="selectedCategory" (ngModelChange)="filterTasks()">
+        <option value="">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+
+      <div class="budget-filter">
+        <label>Max Budget: \${{ maxBudget }}</label>
+        <input
+          type="range"
+          min="0"
+          max="1000"
+          step="50"
+          [(ngModel)]="maxBudget"
+          (ngModelChange)="filterTasks()">
+      </div>
+    </div>
+  </div>
+
+  <div class="tasks-grid">
+    <app-task-card *ngFor="let task of filteredTasks" [task]="task"></app-task-card>
+  </div>
+
+  <div class="no-tasks" *ngIf="filteredTasks.length === 0">
+    <span class="material-icons">inbox</span>
+    <p>No tasks found matching your criteria</p>
+  </div>
+
+  <!-- debug block removed -->
+</div>

@@ -1,0 +1,275 @@
+.task-details {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.details-header {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-gray);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: var(--primary-green);
+}
+
+.details-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+
+.details-main {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 16px var(--shadow-light);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.task-header h1 {
+  font-size: 2.5rem;
+  margin-top: 1rem;
+}
+
+.task-budget-large {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary-green);
+  white-space: nowrap;
+}
+
+.task-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: var(--bg-greenish);
+  border-radius: 1rem;
+}
+
+.info-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.info-item .material-icons {
+  color: var(--primary-green);
+  font-size: 1.75rem;
+}
+
+.info-item label {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 0.25rem;
+}
+
+.info-item p {
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.task-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.task-section:last-of-type {
+  border-bottom: none;
+}
+
+.task-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+.task-section p {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--text-gray);
+}
+
+.apply-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--border-light);
+}
+
+.applied-message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-greenish);
+  border-radius: 1rem;
+  border: 2px solid var(--primary-green);
+}
+
+.applied-message .material-icons {
+  color: var(--primary-green);
+  font-size: 2rem;
+}
+
+.applied-message p {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--primary-green);
+  margin: 0;
+}
+
+.details-sidebar h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.similar-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.no-task {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 16px var(--shadow-light);
+}
+
+.no-task .material-icons {
+  font-size: 5rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.no-task h2 {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .details-content {
+    grid-template-columns: 1fr;
+  }
+
+  .task-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-budget-large {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .details-main {
+    padding: 1.5rem;
+  }
+
+  .task-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .task-info {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Owner View Styles */
+.owner-message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  color: #6c757d;
+  margin-bottom: 2rem;
+}
+
+.owner-message .material-icons {
+  color: #6c757d;
+}
+
+.owner-message p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.applications-list {
+  margin-top: 2rem;
+}
+
+.applications-list h4 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+.application-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  background: var(--white);
+}
+
+.app-message {
+  margin: 0.25rem 0;
+  color: var(--text-gray);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.app-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge-accepted {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--primary-green);
+  color: var(--primary-green);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background: var(--primary-green);
+  color: white;
+}

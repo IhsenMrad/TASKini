@@ -1,0 +1,115 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <a routerLink="/" class="auth-brand">
+        <span class="material-icons">check_circle</span>
+        <span>TASKini</span>
+      </a>
+      <h2>Get Started</h2>
+      <p>Create your account to start tasking</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+
+      <!-- FULL NAME -->
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input 
+          type="text" 
+          id="fullName" 
+          formControlName="fullName" 
+          placeholder="John Doe"
+          [class.error]="fullName?.invalid && fullName?.touched">
+        <span class="error-message" *ngIf="fullName?.invalid && fullName?.touched">
+          <span *ngIf="fullName?.errors?.['required']">Full Name is required</span>
+          <span *ngIf="fullName?.errors?.['minlength']">Must be at least 2 characters</span>
+        </span>
+      </div>
+
+      <!-- LOCATION -->
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input 
+          type="text" 
+          id="location" 
+          formControlName="location" 
+          placeholder="Ariana, Tunis"
+          [class.error]="location?.invalid && location?.touched">
+        <span class="error-message" *ngIf="location?.invalid && location?.touched">
+          <span *ngIf="location?.errors?.['required']">Location is required</span>
+        </span>
+      </div>
+
+      <!-- PHONE -->
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input 
+          type="text" 
+          id="phone" 
+          formControlName="phone" 
+          placeholder="20252025"
+          [class.error]="phone?.invalid && phone?.touched">
+        <span class="error-message" *ngIf="phone?.invalid && phone?.touched">
+          <span *ngIf="phone?.errors?.['required']">Phone is required</span>
+          <span *ngIf="phone?.errors?.['pattern']">Invalid phone number</span>
+        </span>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="you@example.com"
+          [class.error]="email?.invalid && email?.touched">
+        <span class="error-message" *ngIf="email?.invalid && email?.touched">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']">Enter a valid email</span>
+        </span>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          placeholder="At least 6 characters"
+          [class.error]="password?.invalid && password?.touched">
+        <span class="error-message" *ngIf="password?.invalid && password?.touched">
+          <span *ngIf="password?.errors?.['required']">Password is required</span>
+          <span *ngIf="password?.errors?.['minlength']">Minimum 6 characters</span>
+        </span>
+      </div>
+
+      <!-- CONFIRM PASSWORD -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          formControlName="confirmPassword" 
+          placeholder="Re-enter password"
+          [class.error]="(confirmPassword?.invalid && confirmPassword?.touched) || (!passwordsMatch() && confirmPassword?.touched)">
+        <span class="error-message" *ngIf="!passwordsMatch() && confirmPassword?.touched">
+          Passwords do not match
+        </span>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-block" 
+        [disabled]="registerForm.invalid || !passwordsMatch()">
+        Create Account
+        <span class="material-icons">arrow_forward</span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </div>
+  </div>
+</div>
